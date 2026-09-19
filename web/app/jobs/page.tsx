@@ -27,6 +27,11 @@ export default async function JobsPage({
 
   const hasMore = result ? page * result.size < result.total : false;
 
+  // Newest first — the Jobsuche API has no server-side sort param, so this
+  // only orders the jobs loaded on this page, not all 88k+ results.
+  const jobs = result ? [...result.jobs] : [];
+  jobs.sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
+
   return (
     <div className="flex flex-col">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8 sm:px-10">
@@ -90,7 +95,7 @@ export default async function JobsPage({
           )}
 
           <ul className="mt-6 divide-y divide-line border-t border-line">
-            {result?.jobs.map((job) => (
+            {jobs.map((job) => (
               <li
                 key={job.refnr}
                 className="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between"

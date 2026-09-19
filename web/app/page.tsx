@@ -29,7 +29,7 @@ export default function Home() {
                 etwas hermachen.
               </h1>
               <p className="mt-8 max-w-md text-lg text-muted">
-                Stellen für Grafikdesigner in Deutschland durchsuchen, einen
+                Stellen für Quereinsteiger in Deutschland durchsuchen, einen
                 Job auswählen und direkt den passenden Lebenslauf erstellen.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-6">
@@ -65,7 +65,7 @@ export default function Home() {
               <Step
                 number="01"
                 title="Suchen"
-                body="Offene Stellen für Grafikdesign-Berufe, live aus der Jobsuche der Bundesagentur für Arbeit."
+                body="Offene Stellen für Quereinsteiger-Berufe, live aus der Jobsuche der Bundesagentur für Arbeit."
               />
               <Step
                 number="02"
