@@ -19,7 +19,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Jobby — Jobs & CVs für Gestalter",
+  title: "Jobby — Jobs & CVs für Quereinsteiger",
   description:
     "Jobby ist die Jobbörse für Grafikdesigner: Stellen durchsuchen, Job auswählen, CV erstellen.",
 };

@@ -34,13 +34,13 @@ export default async function JobsPage({
           Jobby
         </Link>
         <span className="font-mono text-xs uppercase tracking-widest text-muted">
-          Jobbörse für Grafikdesigner
+          Jobbörse für Quereinsteiger
         </span>
       </header>
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 pb-24 sm:px-10">
         <h1 className="font-display text-4xl tracking-tight sm:text-5xl">
-          Jobs für Gestalter.
+          Jobs für Quereinsteiger.
         </h1>
 
         <form className="mt-10 flex flex-wrap items-end gap-6 border-b border-line pb-10">

@@ -17,12 +17,12 @@ export default function Home() {
           <div className="grid grid-cols-1 items-end gap-16 lg:grid-cols-[1.3fr_1fr]">
             <div>
               <p className="font-mono text-xs uppercase tracking-widest text-accent">
-                Jobbörse für Grafikdesigner
+                Jobbörse für Quereinsteiger
               </p>
               <h1 className="font-display mt-6 text-[13vw] leading-[0.95] font-medium tracking-tight sm:text-6xl lg:text-7xl">
                 Jobs für
                 <br />
-                Gestalter.
+                Quereinsteiger.
                 <br />
                 <span className="italic text-accent">CVs</span>, die
                 <br />
