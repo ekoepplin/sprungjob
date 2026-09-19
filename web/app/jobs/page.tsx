@@ -105,16 +105,14 @@ export default async function JobsPage({
                   </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-6">
-                  {job.externalUrl && (
-                    <a
-                      href={job.externalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono text-xs uppercase tracking-widest text-foreground underline decoration-line underline-offset-4 hover:decoration-accent"
-                    >
-                      Zur Anzeige
-                    </a>
-                  )}
+                  <a
+                    href={job.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-xs uppercase tracking-widest text-foreground underline decoration-line underline-offset-4 hover:decoration-accent"
+                  >
+                    Zur Anzeige
+                  </a>
                   <Link
                     href={{
                       pathname: "/cv",

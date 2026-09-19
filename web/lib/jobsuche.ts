@@ -10,7 +10,7 @@ export type JobListing = {
   company: string | null;
   location: string | null;
   publishedAt: string | null;
-  externalUrl: string | null;
+  externalUrl: string;
 };
 
 export type JobSearchResult = {
@@ -63,7 +63,9 @@ export async function searchDesignJobs(params: {
       company: job.firma ?? null,
       location: job.stellenlokationen?.[0]?.adresse?.ort ?? null,
       publishedAt: job.datumErsteVeroeffentlichung ?? null,
-      externalUrl: job.externeURL ?? null,
+      externalUrl:
+        job.externeURL ??
+        `https://www.arbeitsagentur.de/jobsuche/jobdetail/${job.referenznummer}`,
     })),
     total: data.maxErgebnisse ?? raw.length,
     page: data.page ?? 1,
