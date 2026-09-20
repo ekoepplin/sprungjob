@@ -3,7 +3,7 @@ import { searchDesignJobs } from "@/lib/jobsuche";
 import { relativeGerman } from "@/lib/format";
 
 export const metadata = {
-  title: "Jobs — Jobby",
+  title: "Jobs — Sprungjob",
 };
 
 export default async function JobsPage({
@@ -36,7 +36,7 @@ export default async function JobsPage({
     <div className="flex flex-col">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8 sm:px-10">
         <Link href="/" className="font-display text-xl tracking-tight">
-          Jobby
+          Sprungjob
         </Link>
         <span className="font-mono text-xs uppercase tracking-widest text-muted">
           Jobbörse für Quereinsteiger
@@ -153,7 +153,7 @@ export default async function JobsPage({
 
       <footer className="mt-auto border-t border-line">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-6 py-10 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-10">
-          <span>&copy; {new Date().getFullYear()} Jobby</span>
+          <span>&copy; {new Date().getFullYear()} Sprungjob</span>
           <span>Jobdaten: Jobsuche der Bundesagentur für Arbeit</span>
         </div>
       </footer>

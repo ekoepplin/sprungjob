@@ -47,4 +47,4 @@ export const emptyProfile: CVProfile = {
   strengths: [],
 };
 
-export const CV_STORAGE_KEY = "jobby:cv-profile";
+export const CV_STORAGE_KEY = "sprungjob:cv-profile";

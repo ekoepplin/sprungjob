@@ -4,7 +4,7 @@ status: accepted, risk not fully resolved — revisit before any public launch
 
 # Use the unofficial Bundesagentur Jobsuche API as sole job source
 
-Bundesagentur für Arbeit (BA) publishes no official public API for Jobsuche. We use the endpoint their own mobile app talks to internally (`https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v6/jobs`, header `X-API-Key: jobboerse-jobsuche`), documented by the community `bundesAPI/jobsuche-api` project — not something we registered for; it's a shared, publicly-known key with no per-user identity, verified working 2026-09-19. It's the only BA-native source, matching the decision to scope Jobby to German jobs from this one agency.
+Bundesagentur für Arbeit (BA) publishes no official public API for Jobsuche. We use the endpoint their own mobile app talks to internally (`https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v6/jobs`, header `X-API-Key: jobboerse-jobsuche`), documented by the community `bundesAPI/jobsuche-api` project — not something we registered for; it's a shared, publicly-known key with no per-user identity, verified working 2026-09-19. It's the only BA-native source, matching the decision to scope Sprungjob to German jobs from this one agency.
 
 ## The actual legal/intent picture (researched 2026-09-19)
 
@@ -15,7 +15,7 @@ This is not a clean "unofficial but fine" situation — BA has taken an active p
 - That blocking attempt failed technically within days; the open-data project's docs stayed up and are still the basis for the key we use.
 - BA **never sent a cease-and-desist or filed suit** against the documentation project or, as far as is known, against anyone building on it. ([netzpolitik.org, 2021](https://netzpolitik.org/2021/open-data-arbeitsagentur-kaempft-gegen-offene-schnittstelle/))
 
-So: untested in court, no known enforcement precedent either way, but BA's *stated intent* directly conflicts with Jobby's core mechanism (automated querying of their job data to power a public product). "Nobody's been sued" is not the same as "this is sanctioned."
+So: untested in court, no known enforcement precedent either way, but BA's *stated intent* directly conflicts with Sprungjob's core mechanism (automated querying of their job data to power a public product). "Nobody's been sued" is not the same as "this is sanctioned."
 
 ## Consequence / mitigation
 

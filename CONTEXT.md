@@ -1,4 +1,4 @@
-# Jobby
+# Sprungjob
 
 A job board for career changers (Quereinsteiger) seeking work in Germany: they browse job postings, pick one, and generate a CV from a template.
 
@@ -9,7 +9,7 @@ An account holder using the platform to find work and generate a CV. Always a ca
 _Avoid_: User, Candidate, Applicant
 
 **Job**:
-A job posting fetched live from Bundesagentur für Arbeit's Jobsuche service, via an interface BA has publicly stated is not intended for third-party automated use (see [[0001-unofficial-jobsuche-api-as-job-source]]). Jobby does not create, own, or have a licensed right to this data.
+A job posting fetched live from Bundesagentur für Arbeit's Jobsuche service, via an interface BA has publicly stated is not intended for third-party automated use (see [[0001-unofficial-jobsuche-api-as-job-source]]). Sprungjob does not create, own, or have a licensed right to this data.
 _Avoid_: Listing, Posting, Vacancy, Stelle
 
 **CVTemplate**:
