@@ -15,9 +15,9 @@ Mehr Domain-Sprache in [`CONTEXT.md`](./CONTEXT.md).
 
 ## Open Source
 
-Sprungjob ist Open Source, lizenziert unter [MIT](./LICENSE). Beitraege, Forks, Issues willkommen.
+Sprungjob ist Open Source, lizenziert unter [MIT](./LICENSE). Ziel des Projekts: Menschen kostenlos dabei helfen, einen Job zu finden und daraus einen Lebenslauf zu erstellen — kein kommerzielles Angebot. Beitraege, Forks, Issues willkommen.
 
-**Wichtig:** Sprungjob nutzt die BA-Jobsuche ueber eine inoffizielle Schnittstelle — nicht die eigene, offizielle API der Bundesagentur. Details, Risiken und Begruendung stehen in [ADR 0001](./docs/adr/0001-unofficial-jobsuche-api-as-job-source.md). Nicht als stabile Grundlage fuer einen oeffentlichen Launch gedacht, ohne die dort genannten Massnahmen.
+**Wichtig:** Sprungjob nutzt die BA-Jobsuche ueber eine inoffizielle Schnittstelle — nicht die eigene, offizielle API der Bundesagentur. Details, Risiken und Begruendung sind intern dokumentiert (ADR 0001). Nicht als stabile Grundlage fuer einen oeffentlichen Launch gedacht, ohne die dort genannten Massnahmen.
 
 ## Stack
 
