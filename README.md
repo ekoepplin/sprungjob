@@ -23,7 +23,7 @@ Sprungjob ist Open Source, lizenziert unter [MIT](./LICENSE). Ziel des Projekts:
 
 - Next.js (App Router) + React + TypeScript, in [`web/`](./web)
 - Tailwind CSS
-- CV-Rendering: HTML/CSS → PDF via Puppeteer (Headless-Chrome), kein LaTeX-Toolchain — siehe [ADR 0002](./docs/adr/0002-html-css-pdf-rendering-not-latex.md)
+- CV-Rendering: HTML/CSS → PDF via Puppeteer (Headless-Chrome), kein LaTeX-Toolchain — siehe ADR 0002 (intern)
 
 ## Loslegen
 
@@ -43,11 +43,9 @@ web/            Next.js App
   app/cv/       CV-Editor
   app/api/jobs/ API-Route, ruft Jobsuche ab
   lib/          Jobsuche-Client, CV-Template-Rendering
-docs/adr/       Architecture Decision Records
 CONTEXT.md      Domain-Glossar
 ```
 
 ## Docs
 
 - [`CONTEXT.md`](./CONTEXT.md) — Domain-Begriffe
-- [`docs/adr/`](./docs/adr) — Architekturentscheidungen
