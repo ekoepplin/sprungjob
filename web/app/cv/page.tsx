@@ -108,7 +108,10 @@ function CvEditor() {
                     onChange={(e) => setProfile({ ...profile, name: e.target.value })}
                   />
                 </Field>
-                <Field label="Tagline">
+                <Field
+                  label="Tagline"
+                  hint='Kurzer Satz unter deinem Namen, der zeigt wer du bist. Beispiel: "Motivierte Quereinsteigerin mit Fokus auf Kundenservice"'
+                >
                   <input
                     className={inputClass}
                     value={profile.tagline}
@@ -201,7 +204,10 @@ function CvEditor() {
                         />
                       </Field>
                     </div>
-                    <Field label="Stationen (eine pro Zeile)">
+                    <Field
+                      label="Stationen (eine pro Zeile)"
+                      hint='Konkrete Aufgaben oder Erfolge, je Zeile ein Punkt. Beispiel: "Kassenabwicklung und Kundenberatung im Tagesgeschäft"'
+                    >
                       <textarea
                         className={`${inputClass} min-h-20 resize-y`}
                         value={exp.bullets.join("\n")}
@@ -303,7 +309,10 @@ function CvEditor() {
                         }
                       />
                     </Field>
-                    <Field label="Niveau (1–5)">
+                    <Field
+                      label="Niveau (1–5)"
+                      hint="Eigene Einschätzung deines Könnens. 1 = Grundkenntnisse, 5 = Experte. Beispiel: Excel = 3"
+                    >
                       <input
                         type="number"
                         min={1}
@@ -333,7 +342,10 @@ function CvEditor() {
             </Section>
 
             <Section title="Stärken">
-              <Field label="Kommagetrennt">
+              <Field
+                label="Kommagetrennt"
+                hint='Persönliche Eigenschaften, die dich auszeichnen. Beispiel: "Zuverlässig, Teamfähig, Belastbar"'
+              >
                 <input
                   className={inputClass}
                   placeholder="z. B. Typografie, Teamplayer, Detailauge"
@@ -389,18 +401,39 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Field({
   label,
+  hint,
   children,
   className = "",
 }: {
   label: string;
+  hint?: string;
   children: React.ReactNode;
   className?: string;
 }) {
   return (
     <label className={`flex flex-col gap-2 ${className}`}>
-      <span className={labelClass}>{label}</span>
+      <span className={`${labelClass} flex items-center gap-1.5`}>
+        {label}
+        {hint && <InfoHint text={hint} />}
+      </span>
       {children}
     </label>
+  );
+}
+
+function InfoHint({ text }: { text: string }) {
+  return (
+    <span className="group relative inline-flex normal-case tracking-normal">
+      <span
+        tabIndex={0}
+        className="flex h-3.5 w-3.5 cursor-help items-center justify-center rounded-full border border-muted/60 text-[9px] leading-none text-muted focus:outline-none focus:border-accent"
+      >
+        ?
+      </span>
+      <span className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 w-48 -translate-x-1/2 rounded bg-foreground px-2.5 py-1.5 text-[11px] normal-case leading-snug text-background opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+        {text}
+      </span>
+    </span>
   );
 }
 
