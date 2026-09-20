@@ -23,6 +23,13 @@ export const metadata: Metadata = {
   title: "Sprungjob — Jobs & CVs für Quereinsteiger",
   description:
     "Sprungjob ist die Jobbörse für Quereinsteiger: Stellen durchsuchen, Job auswählen, CV erstellen.",
+  alternates: {
+    canonical: "https://sprungjob.de",
+    languages: {
+      de: "https://sprungjob.de",
+      "x-default": "https://sprungjob.de",
+    },
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
