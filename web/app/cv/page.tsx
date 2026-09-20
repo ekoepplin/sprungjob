@@ -46,29 +46,17 @@ function CvEditor() {
   }, [profile, loaded]);
 
   const html = renderCvHtml(profile);
-  const [downloading, setDownloading] = useState(false);
 
-  async function downloadPdf() {
-    setDownloading(true);
-    try {
-      const res = await fetch("/api/cv/pdf", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(profile),
-      });
-      if (!res.ok) throw new Error("PDF-Erstellung fehlgeschlagen");
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${(profile.name || "cv").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch {
-      alert("PDF konnte nicht erstellt werden. Läuft der Server lokal?");
-    } finally {
-      setDownloading(false);
-    }
+  function downloadPdf() {
+    const iframe = document.createElement("iframe");
+    iframe.style.position = "fixed";
+    iframe.style.top = "-10000px";
+    iframe.srcdoc = html;
+    iframe.onload = () => {
+      iframe.contentWindow?.print();
+      setTimeout(() => document.body.removeChild(iframe), 1000);
+    };
+    document.body.appendChild(iframe);
   }
 
   return (
@@ -394,10 +382,9 @@ function CvEditor() {
             </div>
             <button
               onClick={downloadPdf}
-              disabled={downloading}
-              className="mt-6 inline-flex w-full items-center justify-center bg-accent px-7 py-3.5 font-mono text-xs uppercase tracking-widest text-accent-ink transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="mt-6 inline-flex w-full items-center justify-center bg-accent px-7 py-3.5 font-mono text-xs uppercase tracking-widest text-accent-ink transition-opacity hover:opacity-90"
             >
-              {downloading ? "Wird erstellt…" : "Als PDF herunterladen"}
+              Als PDF herunterladen
             </button>
           </div>
         </div>
