@@ -75,7 +75,7 @@ export default function Home() {
               <Step
                 number="03"
                 title="CV erstellen"
-                body="Ein Lebenslauf im aus deinem Profil — als PDF, bereit zum Versenden."
+                body="Ein Lebenslauf aus deinem Profil — als PDF, bereit zum Versenden."
               />
             </div>
           </div>
