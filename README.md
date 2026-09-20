@@ -1,6 +1,6 @@
 # Sprungjob
 
-Job-Board fuer Quereinsteiger: durchsuchbare Jobs aus der Bundesagentur-fuer-Arbeit-Jobsuche, direkt daraus einen Lebenslauf (CV) generieren — als PDF, im AltaCV-Design.
+Job-Board fuer Quereinsteiger: durchsuchbare Jobs aus der Bundesagentur-fuer-Arbeit-Jobsuche, direkt daraus einen Lebenslauf (CV) generieren — als PDF.
 
 ## Warum
 
@@ -8,7 +8,7 @@ Jobsuche fuer Berufswechsler ist muehsam: Stellenboersen sind auf ein Zielberuf 
 
 - **JobSeeker** sucht Jobs, unabhaengig vom Zielberuf (`quereinstieg`-Filter der Jobsuche-API).
 - **Job** kommt live von der BA-Jobsuche.
-- **CVTemplate** ist ein austauschbares Design fuers CV. Aktuell: AltaCV.
+- **CVTemplate** ist ein austauschbares Design fuers CV. 
 - **CV** ist das generierte Dokument aus JobSeeker-Daten + CVTemplate.
 
 Mehr Domain-Sprache in [`CONTEXT.md`](./CONTEXT.md).
