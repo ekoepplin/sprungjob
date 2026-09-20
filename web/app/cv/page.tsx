@@ -100,6 +100,29 @@ function CvEditor() {
         <div className="mt-12 grid grid-cols-1 gap-16 lg:grid-cols-[1.2fr_1fr]">
           <div className="space-y-14">
             <Section title="Persönliche Angaben">
+              <Field label="Foto" hint="PNG oder JPG, max. 3 MB. Optional." className="mb-6">
+                <div className="flex items-center gap-4">
+                  {profile.photo && (
+                    <img
+                      src={profile.photo}
+                      alt="Vorschau"
+                      className="h-16 w-16 rounded-full border border-line object-cover"
+                    />
+                  )}
+                  <label className="cursor-pointer font-mono text-xs uppercase tracking-widest text-foreground underline decoration-line underline-offset-4 hover:decoration-accent">
+                    Datei auswählen
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      onChange={(e) => handlePhotoChange(e, profile, setProfile)}
+                      className="sr-only"
+                    />
+                  </label>
+                  {profile.photo && (
+                    <RemoveButton onClick={() => setProfile({ ...profile, photo: "" })} />
+                  )}
+                </div>
+              </Field>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <Field label="Name">
                   <input
@@ -459,6 +482,31 @@ function RemoveButton({ onClick }: { onClick: () => void }) {
       Entfernen
     </button>
   );
+}
+
+const MAX_PHOTO_BYTES = 3 * 1024 * 1024;
+
+function handlePhotoChange(
+  e: React.ChangeEvent<HTMLInputElement>,
+  profile: CVProfile,
+  setProfile: (p: CVProfile) => void,
+) {
+  const file = e.target.files?.[0];
+  e.target.value = "";
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    alert("Bitte eine Bilddatei auswählen (PNG, JPG, WebP).");
+    return;
+  }
+  if (file.size > MAX_PHOTO_BYTES) {
+    alert("Bild ist zu groß. Maximal 3 MB.");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    setProfile({ ...profile, photo: reader.result as string });
+  };
+  reader.readAsDataURL(file);
 }
 
 function updateAt<K extends keyof CVProfile>(

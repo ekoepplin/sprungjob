@@ -96,6 +96,8 @@ export function renderCvHtml(profile: CVProfile): string {
   .tagline { color: ${ACCENT}; font-style: italic; font-size: 13pt; margin: 4pt 0 0; }
   .contact { margin: 10pt 0 0; color: ${MUTED}; font-size: 9pt; }
   .head-divider { height: 1px; background: ${LINE}; margin: 14pt 0 18pt; }
+  .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16pt; }
+  .photo { width: 32mm; height: 32mm; object-fit: cover; border: 1px solid ${LINE}; border-radius: 50%; flex-shrink: 0; }
   .columns { display: grid; grid-template-columns: 3fr 2fr; gap: 22pt; }
   h2 {
     font-family: 'Fraunces', serif; font-size: 12pt; font-weight: 600;
@@ -121,9 +123,14 @@ export function renderCvHtml(profile: CVProfile): string {
 </head>
 <body>
   <div class="page">
-    <h1>${esc(profile.name || "Dein Name")}</h1>
-    ${profile.tagline ? `<p class="tagline">${esc(profile.tagline)}</p>` : ""}
-    ${contact ? `<p class="contact">${contact}</p>` : ""}
+    <div class="head">
+      <div>
+        <h1>${esc(profile.name || "Dein Name")}</h1>
+        ${profile.tagline ? `<p class="tagline">${esc(profile.tagline)}</p>` : ""}
+        ${contact ? `<p class="contact">${contact}</p>` : ""}
+      </div>
+      ${profile.photo ? `<img class="photo" src="${esc(profile.photo)}" alt="" />` : ""}
+    </div>
     <div class="head-divider"></div>
     <div class="columns">
       <div>
