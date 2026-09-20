@@ -17,19 +17,19 @@ export default function Home() {
           <div className="grid grid-cols-1 items-end gap-16 lg:grid-cols-[1.3fr_1fr]">
             <div>
               <p className="font-mono text-xs uppercase tracking-widest text-accent">
-                Jobbörse für Grafikdesigner
+                Jobbörse für Quereinsteiger
               </p>
               <h1 className="font-display mt-6 text-[13vw] leading-[0.95] font-medium tracking-tight sm:text-6xl lg:text-7xl">
                 Jobs für
                 <br />
-                Gestalter.
+                Quereinsteiger.
                 <br />
                 <span className="italic text-accent">CVs</span>, die
                 <br />
                 etwas hermachen.
               </h1>
               <p className="mt-8 max-w-md text-lg text-muted">
-                Stellen für Grafikdesigner in Deutschland durchsuchen, einen
+                Stellen für Quereinsteiger in Deutschland durchsuchen, einen
                 Job auswählen und direkt den passenden Lebenslauf erstellen.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-6">
@@ -65,7 +65,7 @@ export default function Home() {
               <Step
                 number="01"
                 title="Suchen"
-                body="Offene Stellen für Grafikdesign-Berufe, live aus der Jobsuche der Bundesagentur für Arbeit."
+                body="Offene Stellen für Quereinsteiger-Berufe, live aus der Jobsuche der Bundesagentur für Arbeit."
               />
               <Step
                 number="02"

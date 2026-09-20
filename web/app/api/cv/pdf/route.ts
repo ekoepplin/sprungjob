@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 import { renderCvHtml } from "@/lib/cv-template";
 import { CVProfile } from "@/lib/cv";
 
-// Dev-only shortcut: drives the Chrome already installed on this machine
-// instead of bundling/downloading a Chromium binary. A real deployment
-// needs a hosted browser (e.g. bundled puppeteer, or a service like
-// Browserless) — this executablePath won't exist on a server.
+// Locally: drive the Chrome already installed on this machine instead of
+// bundling/downloading a Chromium binary. On Vercel there's no such
+// browser on disk, so `@sparticuz/chromium` supplies a serverless-friendly
+// Chromium binary instead.
 const CHROME_PATH =
   process.env.CHROME_PATH ??
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
@@ -15,10 +16,18 @@ export async function POST(req: NextRequest) {
   const profile = (await req.json()) as CVProfile;
   const html = renderCvHtml(profile);
 
-  const browser = await puppeteer.launch({
-    executablePath: CHROME_PATH,
-    headless: true,
-  });
+  const browser = await puppeteer.launch(
+    process.env.VERCEL
+      ? {
+          args: chromium.args,
+          executablePath: await chromium.executablePath(),
+          headless: true,
+        }
+      : {
+          executablePath: CHROME_PATH,
+          headless: true,
+        }
+  );
 
   try {
     const page = await browser.newPage();

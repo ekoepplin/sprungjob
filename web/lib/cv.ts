@@ -24,6 +24,7 @@ export type CVProfile = {
   phone: string;
   location: string;
   homepage: string;
+  photo: string; // data URL, empty string if none
   experience: CVExperience[];
   education: CVEducation[];
   skills: CVSkill[];
@@ -37,6 +38,7 @@ export const emptyProfile: CVProfile = {
   phone: "",
   location: "",
   homepage: "",
+  photo: "",
   experience: [
     { title: "", company: "", dates: "", location: "", bullets: [""] },
   ],
