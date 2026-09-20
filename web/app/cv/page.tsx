@@ -75,7 +75,7 @@ function CvEditor() {
     <div className="flex flex-col">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-8 sm:px-10">
         <Link href="/" className="font-display text-xl tracking-tight">
-          Jobby
+          Sprungjob
         </Link>
         <Link
           href="/jobs"
@@ -405,7 +405,7 @@ function CvEditor() {
 
       <footer className="mt-auto border-t border-line">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-6 py-10 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-10">
-          <span>&copy; {new Date().getFullYear()} Jobby</span>
+          <span>&copy; {new Date().getFullYear()} Sprungjob</span>
           <span>Jobdaten: Jobsuche der Bundesagentur für Arbeit</span>
         </div>
       </footer>
