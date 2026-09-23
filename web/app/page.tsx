@@ -100,7 +100,12 @@ export default function Home() {
       <footer className="mt-auto border-t border-line">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-6 py-10 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-10">
           <span>&copy; {new Date().getFullYear()} Sprungjob</span>
-          <span>Jobdaten: Jobsuche der Bundesagentur für Arbeit</span>
+          <div className="flex items-center gap-4">
+            <span>Jobdaten: Jobsuche der Bundesagentur für Arbeit</span>
+            <a href="/impressum" className="hover:text-foreground">
+              Impressum
+            </a>
+          </div>
         </div>
       </footer>
     </div>
