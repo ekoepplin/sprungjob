@@ -101,7 +101,7 @@ Canonical task file paths:
 
 ### Issue tracker
 
-GitHub Issues on `ekoepplin/jobby`, added to the kanban project board. See `docs/agents/issue-tracker.md`.
+GitHub Issues on `ekoepplin/sprungjob`, added to the kanban project board. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
