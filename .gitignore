@@ -1,3 +1,10 @@
 
 # docs intern, nicht oeffentlich
 docs/
+tasks/
+.vercel
+.env
+# The workbench's .env (BASE_PATH, SSH_PORT; no secrets) is committed; compose.yaml reads it.
+!/.env
+TODO.md
+/cv-templates/
