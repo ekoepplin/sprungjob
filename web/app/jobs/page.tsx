@@ -120,18 +120,15 @@ export default async function JobsPage({
                   >
                     Zur Anzeige
                   </a>
-                  <Link
-                    href={{
-                      pathname: "/cv",
-                      query: {
-                        title: job.title,
-                        company: job.company ?? "",
-                      },
-                    }}
+                  {/* A plain <a>, not <Link>: /cv needs a full page load to get its own CSP
+                      (inline styles for the CV preview iframe). A client-side navigation keeps
+                      this page's stricter CSP and the preview renders unstyled. */}
+                  <a
+                    href={`/cv?${new URLSearchParams({ title: job.title, company: job.company ?? "" })}`}
                     className="inline-flex items-center bg-accent px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-accent-ink transition-opacity hover:opacity-90"
                   >
                     CV erstellen
-                  </Link>
+                  </a>
                 </div>
               </li>
             ))}
