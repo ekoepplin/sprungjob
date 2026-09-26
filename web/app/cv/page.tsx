@@ -491,9 +491,30 @@ function handlePhotoChange(
   }
   const reader = new FileReader();
   reader.onload = () => {
-    setProfile({ ...profile, photo: reader.result as string });
+    const img = new Image();
+    img.onload = () => setProfile({ ...profile, photo: downscalePhoto(img) });
+    img.onerror = () => alert("Bild konnte nicht gelesen werden.");
+    img.src = reader.result as string;
   };
   reader.readAsDataURL(file);
+}
+
+// A raw 3 MB photo is ~4 MB as a data URL — enough to blow the ~5 MB
+// localStorage quota, so the profile silently stops saving. The CV shows the
+// photo at 32 mm, so 600 px is plenty and lands around 50–100 KB.
+const PHOTO_MAX_PX = 600;
+
+function downscalePhoto(img: HTMLImageElement): string {
+  const scale = Math.min(1, PHOTO_MAX_PX / Math.max(img.width, img.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(img.width * scale);
+  canvas.height = Math.round(img.height * scale);
+  const ctx = canvas.getContext("2d")!;
+  // JPEG has no alpha — without a fill, transparent PNG areas turn black.
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", 0.85);
 }
 
 function updateAt<K extends keyof CVProfile>(
