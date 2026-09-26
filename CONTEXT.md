@@ -13,7 +13,7 @@ A job posting fetched live from Bundesagentur für Arbeit's Jobsuche service, vi
 _Avoid_: Listing, Posting, Vacancy, Stelle
 
 **CVTemplate**:
-A swappable visual design definition used to render a JobSeeker's CV data into a document. Five exist: Alta (default), Klassisch (ATS-friendly), Seitenleiste, Modern and Kompakt. The JobSeeker picks one in the CV editor; the choice is stored separately from their data.
+A swappable visual design definition used to render a JobSeeker's CV data into a document. Ten exist, each modelled on a popular open-source CV template: Alta (default), Klassisch (ATS-friendly), Seitenleiste, Modern, Kompakt, Elegant, Spalten, Bänder, Zeitleiste and Kasten. The JobSeeker picks one in the CV editor; the choice is stored separately from their data.
 _Avoid_: Theme, Layout, Design
 
 **CV**:

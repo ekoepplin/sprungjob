@@ -1,9 +1,14 @@
 import { CVProfile } from "@/lib/cv";
 import * as alta from "./alta";
+import * as baender from "./baender";
+import * as elegant from "./elegant";
+import * as kasten from "./kasten";
 import * as kompakt from "./kompakt";
 import * as klassisch from "./klassisch";
 import * as modern from "./modern";
 import * as seitenleiste from "./seitenleiste";
+import * as spalten from "./spalten";
+import * as zeitleiste from "./zeitleiste";
 
 export type CVTemplate = {
   id: string;
@@ -16,7 +21,7 @@ export const CV_TEMPLATES: CVTemplate[] = [
   {
     id: "alta",
     label: "Alta",
-    description: "Zwei Spalten, warme Akzentfarbe, Foto rechts oben.",
+    description: "Zwei Spalten, dunkelrote Titel mit Goldlinie, Foto rechts oben.",
     render: alta.render,
   },
   {
@@ -28,7 +33,7 @@ export const CV_TEMPLATES: CVTemplate[] = [
   {
     id: "seitenleiste",
     label: "Seitenleiste",
-    description: "Dunkle Seitenleiste mit Foto, Kontakt und Skills.",
+    description: "Hellgraue Seitenleiste mit Foto, Kontakt und Skill-Balken, blaue Akzente.",
     render: seitenleiste.render,
   },
   {
@@ -40,8 +45,38 @@ export const CV_TEMPLATES: CVTemplate[] = [
   {
     id: "kompakt",
     label: "Kompakt",
-    description: "Dicht gesetzt, damit alles auf eine Seite passt.",
+    description: "Dicht gesetzt, Abschnittstitel links, ohne Foto — passt meist auf eine Seite.",
     render: kompakt.render,
+  },
+  {
+    id: "elegant",
+    label: "Elegant",
+    description: "Zentrierter Name in Kapitälchen, Abschnitte mit Symbolen, Serifenschrift.",
+    render: elegant.render,
+  },
+  {
+    id: "spalten",
+    label: "Spalten",
+    description: "Großer, heller Name, schmale linke Spalte für Ausbildung und Skills, ohne Foto.",
+    render: spalten.render,
+  },
+  {
+    id: "baender",
+    label: "Bänder",
+    description: "Farbige Querbänder, orange Akzente, senkrechte Abschnittstitel.",
+    render: baender.render,
+  },
+  {
+    id: "zeitleiste",
+    label: "Zeitleiste",
+    description: "Daten links an einer Linie, Symbole, Foto rechts oben.",
+    render: zeitleiste.render,
+  },
+  {
+    id: "kasten",
+    label: "Kasten",
+    description: "Abschnittstitel in grauen Kästen, klassische Serifenschrift, ohne Foto.",
+    render: kasten.render,
   },
 ];
 
