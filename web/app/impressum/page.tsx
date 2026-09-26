@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { pageAlternates } from "@/lib/seo";
 
 export const metadata = {
   title: "Impressum — Sprungjob",
+  alternates: pageAlternates("/impressum"),
 };
 
 export default function ImpressumPage() {

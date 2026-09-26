@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { pageAlternates } from "@/lib/seo";
 import { searchDesignJobs } from "@/lib/jobsuche";
 import { relativeGerman } from "@/lib/format";
 
 export const metadata = {
   title: "Jobs — Sprungjob",
+  alternates: pageAlternates("/jobs"),
 };
 
 export default async function JobsPage({

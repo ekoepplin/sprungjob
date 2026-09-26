@@ -1,3 +1,9 @@
+import { pageAlternates } from "@/lib/seo";
+
+export const metadata = {
+  alternates: pageAlternates("/"),
+};
+
 export default function Home() {
   return (
     <div className="flex flex-col">
