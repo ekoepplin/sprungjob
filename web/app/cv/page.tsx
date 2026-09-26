@@ -1,10 +1,10 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { CVProfile, CV_STORAGE_KEY, emptyProfile } from "@/lib/cv";
-import { render as renderCvHtml } from "@/lib/cv-templates/alta";
+import { CVProfile, CV_STORAGE_KEY, CV_TEMPLATE_STORAGE_KEY, emptyProfile } from "@/lib/cv";
+import { CV_TEMPLATES, DEFAULT_TEMPLATE_ID, getTemplate } from "@/lib/cv-templates";
 
 const inputClass =
   "w-full border-b border-line bg-transparent px-1 py-1.5 outline-none placeholder:text-muted/60 focus:border-accent";
@@ -24,12 +24,15 @@ function CvEditor() {
   const jobCompany = searchParams.get("company");
 
   const [profile, setProfile] = useState<CVProfile>(emptyProfile);
+  const [templateId, setTemplateId] = useState(DEFAULT_TEMPLATE_ID);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem(CV_STORAGE_KEY);
       if (raw) setProfile(JSON.parse(raw));
+      const savedTemplate = localStorage.getItem(CV_TEMPLATE_STORAGE_KEY);
+      if (savedTemplate) setTemplateId(getTemplate(savedTemplate).id);
     } catch {
       // ignore corrupt/blocked storage, start fresh
     }
@@ -45,7 +48,16 @@ function CvEditor() {
     }
   }, [profile, loaded]);
 
-  const html = renderCvHtml(profile);
+  useEffect(() => {
+    if (!loaded) return;
+    try {
+      localStorage.setItem(CV_TEMPLATE_STORAGE_KEY, templateId);
+    } catch {
+      // storage unavailable — the choice just isn't remembered
+    }
+  }, [templateId, loaded]);
+
+  const html = getTemplate(templateId).render(profile);
 
   function downloadPdf() {
     const iframe = document.createElement("iframe");
@@ -373,13 +385,7 @@ function CvEditor() {
           </div>
 
           <div className="lg:sticky lg:top-10 lg:self-start">
-            <div className="overflow-hidden border border-line" style={{ width: 400, height: 566 }}>
-              <iframe
-                title="CV Vorschau"
-                srcDoc={html}
-                style={{ width: 800, height: 1131, transform: "scale(0.5)", transformOrigin: "top left", border: "none" }}
-              />
-            </div>
+            <TemplateSlider templateId={templateId} html={html} onChange={setTemplateId} />
             <button
               onClick={downloadPdf}
               className="mt-6 inline-flex w-full items-center justify-center bg-accent px-7 py-3.5 font-mono text-xs uppercase tracking-widest text-accent-ink transition-opacity hover:opacity-90"
@@ -396,6 +402,130 @@ function CvEditor() {
           <span>Jobdaten: Jobsuche der Bundesagentur für Arbeit</span>
         </div>
       </footer>
+    </div>
+  );
+}
+
+const SWIPE_MIN_PX = 80; // inside the half-scale preview → 40 px on screen
+
+function TemplateSlider({
+  templateId,
+  html,
+  onChange,
+}: {
+  templateId: string;
+  html: string;
+  onChange: (id: string) => void;
+}) {
+  const index = CV_TEMPLATES.findIndex((t) => t.id === getTemplate(templateId).id);
+  const template = CV_TEMPLATES[index];
+  // Which side the new template slides in from; null on first render (no animation).
+  const [direction, setDirection] = useState<"next" | "prev" | null>(null);
+
+  function go(target: number, dir: "next" | "prev") {
+    const n = CV_TEMPLATES.length;
+    setDirection(dir);
+    onChange(CV_TEMPLATES[(target + n) % n].id);
+  }
+  // The swipe listeners live inside the iframe document; the ref keeps them on the current index.
+  const stepRef = useRef<(delta: 1 | -1) => void>(() => {});
+  useEffect(() => {
+    stepRef.current = (delta) => go(index + delta, delta > 0 ? "next" : "prev");
+  });
+
+  function attachSwipe(e: React.SyntheticEvent<HTMLIFrameElement>) {
+    const doc = e.currentTarget.contentDocument;
+    if (!doc) return;
+    let start: { x: number; y: number } | null = null;
+    doc.addEventListener(
+      "touchstart",
+      (ev) => (start = { x: ev.touches[0].clientX, y: ev.touches[0].clientY }),
+      { passive: true },
+    );
+    doc.addEventListener("touchend", (ev) => {
+      if (!start) return;
+      const dx = ev.changedTouches[0].clientX - start.x;
+      const dy = ev.changedTouches[0].clientY - start.y;
+      start = null;
+      if (Math.abs(dx) < SWIPE_MIN_PX || Math.abs(dx) < Math.abs(dy)) return;
+      stepRef.current(dx < 0 ? 1 : -1);
+    });
+  }
+
+  const arrowClass =
+    "absolute top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-background/85 text-lg leading-none text-muted opacity-0 backdrop-blur transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100 pointer-coarse:opacity-100";
+
+  return (
+    <div
+      role="group"
+      aria-roledescription="Karussell"
+      aria-label="CV-Vorlage"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowRight") go(index + 1, "next");
+        if (e.key === "ArrowLeft") go(index - 1, "prev");
+      }}
+      className="outline-none focus-visible:ring-1 focus-visible:ring-accent"
+    >
+      <div className="group relative" style={{ width: 400 }}>
+        <div className="overflow-hidden border border-line" style={{ width: 400, height: 566 }}>
+          <iframe
+            key={template.id}
+            title={`CV Vorschau: ${template.label}`}
+            srcDoc={html}
+            onLoad={attachSwipe}
+            className={direction ? `cv-slide-${direction}` : undefined}
+            style={{ width: 800, height: 1131, transform: "scale(0.5)", transformOrigin: "top left", border: "none" }}
+          />
+        </div>
+        <button
+          type="button"
+          aria-label="Vorheriges Template"
+          onClick={() => go(index - 1, "prev")}
+          className={`${arrowClass} left-3`}
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          aria-label="Nächstes Template"
+          onClick={() => go(index + 1, "next")}
+          className={`${arrowClass} right-3`}
+        >
+          ›
+        </button>
+      </div>
+
+      <div className="mt-5 flex items-start justify-between gap-6" style={{ width: 400 }}>
+        <div aria-live="polite">
+          <p className="font-mono text-xs uppercase tracking-widest text-foreground">
+            {template.label}
+            <span className="text-muted">
+              {" "}
+              · {index + 1}/{CV_TEMPLATES.length}
+            </span>
+          </p>
+          <p className="mt-1 text-xs text-muted">{template.description}</p>
+        </div>
+        <div className="flex shrink-0 items-center pt-0.5">
+          {CV_TEMPLATES.map((t, i) => (
+            <button
+              key={t.id}
+              type="button"
+              aria-label={t.label}
+              aria-current={i === index}
+              onClick={() => i !== index && go(i, i > index ? "next" : "prev")}
+              className="p-1"
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-all duration-300 ${
+                  i === index ? "w-5 bg-accent" : "w-1.5 bg-line hover:bg-muted"
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

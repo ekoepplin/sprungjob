@@ -48,3 +48,5 @@ export const emptyProfile: CVProfile = {
 };
 
 export const CV_STORAGE_KEY = "sprungjob:cv-profile";
+// Kept apart from the profile: a CV is JobSeeker data + a CVTemplate.
+export const CV_TEMPLATE_STORAGE_KEY = "sprungjob:cv-template";
