@@ -1,12 +1,8 @@
 import { CVProfile } from "@/lib/cv";
+import { contactItems, esc, filled, page } from "./shared";
 
-function esc(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+// Alta — two columns, serif headings, warm accent. Loosely inspired by
+// AltaCV (github.com/liantze/AltaCV); reimplemented in HTML/CSS, no code copied.
 
 const ACCENT = "#b33f1e";
 const INK = "#191411";
@@ -14,14 +10,11 @@ const MUTED = "#6b6259";
 const LINE = "#dfd6c9";
 const PAPER = "#f6f1ea";
 
-export function renderCvHtml(profile: CVProfile): string {
-  const contact = [profile.email, profile.phone, profile.location, profile.homepage]
-    .filter(Boolean)
-    .map(esc)
-    .join(" &nbsp;&middot;&nbsp; ");
+export function render(profile: CVProfile): string {
+  const { experience, education, skills, strengths } = filled(profile);
+  const contact = contactItems(profile).join(" &nbsp;&middot;&nbsp; ");
 
-  const experience = profile.experience
-    .filter((e) => e.title || e.company)
+  const experienceHtml = experience
     .map(
       (e) => `
         <div class="event">
@@ -33,19 +26,15 @@ export function renderCvHtml(profile: CVProfile): string {
             e.location ? ` &nbsp;&middot;&nbsp; ${esc(e.location)}` : ""
           }</div>
           ${
-            e.bullets.filter(Boolean).length
-              ? `<ul>${e.bullets
-                  .filter(Boolean)
-                  .map((b) => `<li>${esc(b)}</li>`)
-                  .join("")}</ul>`
+            e.bullets.length
+              ? `<ul>${e.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>`
               : ""
           }
         </div>`,
     )
     .join('<div class="divider"></div>');
 
-  const education = profile.education
-    .filter((e) => e.degree || e.school)
+  const educationHtml = education
     .map(
       (e) => `
         <div class="event">
@@ -58,8 +47,7 @@ export function renderCvHtml(profile: CVProfile): string {
     )
     .join('<div class="divider"></div>');
 
-  const skills = profile.skills
-    .filter((s) => s.name)
+  const skillsHtml = skills
     .map(
       (s) => `
         <div class="skill">
@@ -69,25 +57,9 @@ export function renderCvHtml(profile: CVProfile): string {
     )
     .join("");
 
-  const strengths = profile.strengths
-    .filter(Boolean)
-    .map((s) => `<span class="tag">${esc(s)}</span>`)
-    .join("");
+  const strengthsHtml = strengths.map((s) => `<span class="tag">${esc(s)}</span>`).join("");
 
-  return `<!doctype html>
-<html lang="de">
-<head>
-<meta charset="utf-8" />
-<title>${esc(profile.name || "CV")}</title>
-<style>
-  /* Self-hosted (public/fonts) — loading from Google would send visitor IPs to Google (DSGVO). */
-  @font-face { font-family: 'Fraunces'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('/fonts/fraunces-latin.woff2') format('woff2'); }
-  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('/fonts/inter-latin.woff2') format('woff2'); }
-  @page { size: A4; margin: 0; }
-  @media print {
-    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  }
-  * { box-sizing: border-box; }
+  const css = `
   body {
     margin: 0;
     background: ${PAPER};
@@ -123,10 +95,9 @@ export function renderCvHtml(profile: CVProfile): string {
   .tag {
     display: inline-block; border: 1px solid ${LINE}; border-radius: 2pt;
     padding: 2pt 7pt; margin: 0 5pt 5pt 0; font-size: 8.5pt; color: ${MUTED};
-  }
-</style>
-</head>
-<body>
+  }`;
+
+  const body = `
   <div class="page">
     <div class="head">
       <div>
@@ -139,15 +110,15 @@ export function renderCvHtml(profile: CVProfile): string {
     <div class="head-divider"></div>
     <div class="columns">
       <div>
-        ${experience ? `<section><h2>Berufserfahrung</h2>${experience}</section>` : ""}
+        ${experienceHtml ? `<section><h2>Berufserfahrung</h2>${experienceHtml}</section>` : ""}
       </div>
       <div>
-        ${education ? `<section><h2>Ausbildung</h2>${education}</section>` : ""}
-        ${skills ? `<section><h2>Skills</h2>${skills}</section>` : ""}
-        ${strengths ? `<section><h2>Stärken</h2>${strengths}</section>` : ""}
+        ${educationHtml ? `<section><h2>Ausbildung</h2>${educationHtml}</section>` : ""}
+        ${skillsHtml ? `<section><h2>Skills</h2>${skillsHtml}</section>` : ""}
+        ${strengthsHtml ? `<section><h2>Stärken</h2>${strengthsHtml}</section>` : ""}
       </div>
     </div>
-  </div>
-</body>
-</html>`;
+  </div>`;
+
+  return page(profile, css, body);
 }

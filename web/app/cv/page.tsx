@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CVProfile, CV_STORAGE_KEY, emptyProfile } from "@/lib/cv";
-import { renderCvHtml } from "@/lib/cv-template";
+import { render as renderCvHtml } from "@/lib/cv-templates/alta";
 
 const inputClass =
   "w-full border-b border-line bg-transparent px-1 py-1.5 outline-none placeholder:text-muted/60 focus:border-accent";
