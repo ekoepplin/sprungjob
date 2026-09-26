@@ -111,6 +111,9 @@ export default function Home() {
             <a href="/impressum" className="hover:text-foreground">
               Impressum
             </a>
+            <a href="/datenschutz" className="hover:text-foreground">
+              Datenschutz
+            </a>
           </div>
         </div>
       </footer>

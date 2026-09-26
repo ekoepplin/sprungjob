@@ -79,9 +79,10 @@ export function renderCvHtml(profile: CVProfile): string {
 <head>
 <meta charset="utf-8" />
 <title>${esc(profile.name || "CV")}</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
+  /* Self-hosted (public/fonts) — loading from Google would send visitor IPs to Google (DSGVO). */
+  @font-face { font-family: 'Fraunces'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('/fonts/fraunces-latin.woff2') format('woff2'); }
+  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('/fonts/inter-latin.woff2') format('woff2'); }
   @page { size: A4; margin: 0; }
   @media print {
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
