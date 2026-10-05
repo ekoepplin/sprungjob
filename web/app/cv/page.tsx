@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -17,12 +17,12 @@ const inputClass =
   "w-full border-b border-line bg-transparent px-1 py-1.5 outline-none placeholder:text-muted/60 focus:border-accent";
 const labelClass = "font-mono text-xs uppercase tracking-widest text-muted";
 
+const noSubscribe = () => () => {};
+
 export default function CvPage() {
-  return (
-    <Suspense fallback={null}>
-      <CvEditor />
-    </Suspense>
-  );
+  // The editor's initial state comes from localStorage, so it only renders in the browser.
+  const isClient = useSyncExternalStore(noSubscribe, () => true, () => false);
+  return <Suspense fallback={null}>{isClient && <CvEditor />}</Suspense>;
 }
 
 function CvEditor() {
@@ -30,39 +30,40 @@ function CvEditor() {
   const jobTitle = searchParams.get("title");
   const jobCompany = searchParams.get("company");
 
-  const [profile, setProfile] = useState<CVProfile>(emptyProfile);
-  const [templateId, setTemplateId] = useState(DEFAULT_TEMPLATE_ID);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
+  const [profile, setProfile] = useState<CVProfile>(() => {
     try {
       const raw = localStorage.getItem(CV_STORAGE_KEY);
-      if (raw) setProfile(JSON.parse(raw));
-      const savedTemplate = localStorage.getItem(CV_TEMPLATE_STORAGE_KEY);
-      if (savedTemplate) setTemplateId(getTemplate(savedTemplate).id);
+      if (raw) return JSON.parse(raw);
     } catch {
       // ignore corrupt/blocked storage, start fresh
     }
-    setLoaded(true);
-  }, []);
+    return emptyProfile;
+  });
+  const [templateId, setTemplateId] = useState(() => {
+    try {
+      const savedTemplate = localStorage.getItem(CV_TEMPLATE_STORAGE_KEY);
+      if (savedTemplate) return getTemplate(savedTemplate).id;
+    } catch {
+      // ignore blocked storage, use the default
+    }
+    return DEFAULT_TEMPLATE_ID;
+  });
 
   useEffect(() => {
-    if (!loaded) return;
     try {
       localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(profile));
     } catch {
       // storage unavailable (private mode etc.) — preview still works
     }
-  }, [profile, loaded]);
+  }, [profile]);
 
   useEffect(() => {
-    if (!loaded) return;
     try {
       localStorage.setItem(CV_TEMPLATE_STORAGE_KEY, templateId);
     } catch {
       // storage unavailable — the choice just isn't remembered
     }
-  }, [templateId, loaded]);
+  }, [templateId]);
 
   // Until the JobSeeker types something, show Max Mustermann so the templates can be compared.
   const html = getTemplate(templateId).render(isBlankProfile(profile) ? sampleProfile : profile);
