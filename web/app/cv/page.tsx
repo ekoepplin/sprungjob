@@ -3,7 +3,14 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { CVProfile, CV_STORAGE_KEY, CV_TEMPLATE_STORAGE_KEY, emptyProfile } from "@/lib/cv";
+import {
+  CVProfile,
+  CV_STORAGE_KEY,
+  CV_TEMPLATE_STORAGE_KEY,
+  emptyProfile,
+  isBlankProfile,
+  sampleProfile,
+} from "@/lib/cv";
 import { CV_TEMPLATES, DEFAULT_TEMPLATE_ID, getTemplate } from "@/lib/cv-templates";
 
 const inputClass =
@@ -57,7 +64,8 @@ function CvEditor() {
     }
   }, [templateId, loaded]);
 
-  const html = getTemplate(templateId).render(profile);
+  // Until the JobSeeker types something, show Max Mustermann so the templates can be compared.
+  const html = getTemplate(templateId).render(isBlankProfile(profile) ? sampleProfile : profile);
 
   function downloadPdf() {
     const iframe = document.createElement("iframe");
