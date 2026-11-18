@@ -72,10 +72,11 @@ export default function DatenschutzPage() {
           <Block title="CV-Editor">
             <p>
               Alle Angaben im CV-Editor, einschließlich eines Fotos, werden
-              ausschließlich lokal in Ihrem Browser (localStorage) gespeichert
+              ausschließlich lokal in Ihrem Browser (sessionStorage) gespeichert
               und nicht an uns übertragen. Auch das PDF wird in Ihrem Browser
-              erzeugt. Sie können die Daten jederzeit löschen, indem Sie die
-              Websitedaten für sprungjob.de in Ihrem Browser entfernen.
+              erzeugt. Die Angaben werden automatisch gelöscht, sobald Sie den
+              Browser-Tab schließen. Nur die gewählte Vorlage wird dauerhaft
+              gespeichert (localStorage).
             </p>
           </Block>
 

@@ -31,28 +31,12 @@ export type CVProfile = {
   strengths: string[];
 };
 
-export const emptyProfile: CVProfile = {
-  name: "",
-  tagline: "",
-  email: "",
-  phone: "",
-  location: "",
-  homepage: "",
-  photo: "",
-  experience: [
-    { title: "", company: "", dates: "", location: "", bullets: [""] },
-  ],
-  education: [{ degree: "", school: "", dates: "" }],
-  skills: [{ name: "", rating: 3 }],
-  strengths: [],
-};
-
 // Neutral avatar so templates with a photo slot show it in the sample.
 const SAMPLE_PHOTO = `data:image/svg+xml,${encodeURIComponent(
   "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' width='600' height='600'><rect width='120' height='120' fill='#d9dde3'/><circle cx='60' cy='46' r='22' fill='#a3abb7'/><path d='M18 120c0-26 19-42 42-42s42 16 42 42z' fill='#a3abb7'/></svg>",
 )}`;
 
-/** Shown in the preview while the JobSeeker hasn't typed anything; never stored. */
+/** Starting CV on every new visit; the JobSeeker overwrites it with their own data. */
 export const sampleProfile: CVProfile = {
   name: "Max Mustermann",
   tagline: "Quereinsteiger in die Logistik mit 8 Jahren Erfahrung im Einzelhandel",
@@ -109,17 +93,6 @@ export const sampleProfile: CVProfile = {
   ],
   strengths: ["Zuverlässig", "Teamfähig", "Belastbar", "Organisiert"],
 };
-
-/** True while every text field is empty (ratings don't count). */
-export function isBlankProfile(p: CVProfile): boolean {
-  return [
-    p.name, p.tagline, p.email, p.phone, p.location, p.homepage, p.photo,
-    ...p.experience.flatMap((e) => [e.title, e.company, e.dates, e.location, ...e.bullets]),
-    ...p.education.flatMap((e) => [e.degree, e.school, e.dates]),
-    ...p.skills.map((s) => s.name),
-    ...p.strengths,
-  ].every((t) => !t.trim());
-}
 
 export const CV_STORAGE_KEY = "sprungjob:cv-profile";
 // Kept apart from the profile: a CV is JobSeeker data + a CVTemplate.

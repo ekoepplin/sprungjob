@@ -7,8 +7,6 @@ import {
   CVProfile,
   CV_STORAGE_KEY,
   CV_TEMPLATE_STORAGE_KEY,
-  emptyProfile,
-  isBlankProfile,
   sampleProfile,
 } from "@/lib/cv";
 import { CV_TEMPLATES, DEFAULT_TEMPLATE_ID, getTemplate } from "@/lib/cv-templates";
@@ -20,7 +18,7 @@ const labelClass = "font-mono text-xs uppercase tracking-widest text-muted";
 const noSubscribe = () => () => {};
 
 export default function CvPage() {
-  // The editor's initial state comes from localStorage, so it only renders in the browser.
+  // The editor's initial state comes from browser storage, so it only renders in the browser.
   const isClient = useSyncExternalStore(noSubscribe, () => true, () => false);
   return <Suspense fallback={null}>{isClient && <CvEditor />}</Suspense>;
 }
@@ -32,12 +30,15 @@ function CvEditor() {
 
   const [profile, setProfile] = useState<CVProfile>(() => {
     try {
-      const raw = localStorage.getItem(CV_STORAGE_KEY);
+      // CVs used to persist in localStorage; drop leftovers so old data doesn't linger.
+      localStorage.removeItem(CV_STORAGE_KEY);
+      const raw = sessionStorage.getItem(CV_STORAGE_KEY);
       if (raw) return JSON.parse(raw);
     } catch {
       // ignore corrupt/blocked storage, start fresh
     }
-    return emptyProfile;
+    // Every new visit starts from the full Max Mustermann CV, which the JobSeeker edits.
+    return sampleProfile;
   });
   const [templateId, setTemplateId] = useState(() => {
     try {
@@ -51,7 +52,7 @@ function CvEditor() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(profile));
+      sessionStorage.setItem(CV_STORAGE_KEY, JSON.stringify(profile));
     } catch {
       // storage unavailable (private mode etc.) — preview still works
     }
@@ -65,8 +66,7 @@ function CvEditor() {
     }
   }, [templateId]);
 
-  // Until the JobSeeker types something, show Max Mustermann so the templates can be compared.
-  const html = getTemplate(templateId).render(isBlankProfile(profile) ? sampleProfile : profile);
+  const html = getTemplate(templateId).render(profile);
 
   function downloadPdf() {
     const iframe = document.createElement("iframe");
