@@ -8,3 +8,4 @@ tasks/
 !/.env
 TODO.md
 /cv-templates/
+.DS_Store
