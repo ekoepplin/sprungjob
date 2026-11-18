@@ -4,7 +4,7 @@
 #
 #   docker compose up -d    # start the workbench (the dock step wires every
 #                           # harness adapter on each start — issue #10)
-#   ssh -p 2224 node@localhost
+#   ssh -p 2227 node@localhost
 #
 # BASE_PATH and SSH_PORT come from the committed .env next to this file.
 
