@@ -110,3 +110,10 @@ Default mattpocock/skills vocabulary (`needs-triage`, `needs-info`, `ready-for-a
 ### Domain docs
 
 Single-context — `CONTEXT.md` + `docs/adr/` at repo root. See `docs/agents/domain.md`.
+
+### Integration repository
+
+`/Users/ekoepplin/repos/dlt-information-retrieval-utils` is the shared integration repo for most projects. It holds their data pipelines (dlt) and the Google Cloud setup (WIF, service accounts). Sprungjob is the exception: its Jobsuche pipeline and dbt project live in this repo under `data/`, with its own bucket `gs://sprungjob-prod` (`docs/adr/0003-data-pipeline-and-dbt-live-in-sprungjob.md`, plan in `docs/sources/jobsuche.md`). Before any work on data ingestion, Google Cloud, GCS buckets, BigQuery, or credentials, still read the integration repo's `README.md`, `PROJECT-INFO.md`, `CONTEXT.md`, `docs/adr/` and `agentic-workflow/tasks/lessons.md`, because the patterns and the GCP setup come from there.
+
+- GCP project: `dbt-bigquery-core`. Local CLI auth: the user's ADC login (`gcloud auth application-default login`). CI auth: Workload Identity Federation with `dlt-ir-pipeline@dbt-bigquery-core.iam.gserviceaccount.com`.
+- Don't use the `dbt-bq-core-service` key files (`~/dbt-bigquery-core-service-account-key.json`, `~/repos/dbt-bigquery-core/credentials/`). Their key is dead (`invalid_grant: account not found`).
